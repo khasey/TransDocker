@@ -1,0 +1,73 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+//model Social {
+//    id                Int      @id
+//    id_user           Int      @unique
+//    friend            Boolean
+//    blocked           Boolean
+//    first_interaction DateTime
+//    message_history   Int
+//    user              User     @relation(fields: [id_user], references: [id])
+//}
+
+model User {
+    id                  Int       @id @default(autoincrement())
+    authentification    Boolean
+    imageUrl            String?
+    twoFactorEnabled    Boolean   @default(false)
+    twoFactorAuthSecret String?   @db.VarChar
+    username            String    @db.VarChar(100)
+    games1              Game[]    @relation("games1")
+    games2              Game[]    @relation("games2")
+    Message             Message[]
+    //roles               Role[]    @relation("roles")
+    //social              Social?
+}
+
+model Game {
+    id         Int      @id
+    id_user_1  Int
+    id_user_2  Int
+    score      Int
+    match_date DateTime
+    user1      User     @relation("games1", fields: [id_user_1], references: [id])
+    user2      User     @relation("games2", fields: [id_user_2], references: [id])
+}
+
+model Message {
+    id        Int      @id @default(autoincrement())
+    sender    Int
+    date      DateTime @db.Timestamp(6)
+    channelId Int
+    userId    Int?
+    message   String   @db.VarChar
+    username  String   @db.VarChar
+    imageUrl  String   @db.VarChar
+    User      User?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_84d835397d0526ad7d04ef354e1")
+    Channel   Channel  @relation(fields: [channelId], references: [id])
+}
+
+//model Role {
+//    id     Int      @id
+//    userId Int
+//    owner  Boolean
+//    admin  Boolean
+//    join   DateTime
+//    user   User     @relation("roles", fields: [userId], references: [id])
+//}
+
+model Channel {
+    id       Int       @id @default(autoincrement())
+    name     String    @db.VarChar
+    password String?   @db.VarChar
+    dm       Boolean   @default(false)
+    messages Message[]
+}
