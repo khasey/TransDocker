@@ -1,0 +1,100 @@
+.all{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 40px;
+    border: inset 1px rgb(0, 217, 255);
+}
+.left{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 40px 0px 0px 40px;
+    flex-direction: row;
+    gap: 60px;
+}
+
+.username{
+    font-size: 30px;
+    color: aliceblue;
+    font-weight: 700;
+}
+.score{
+    font-size: 30px;
+    color: aliceblue;
+    font-weight: 700;
+}
+.center{
+    width: 8px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 2px 2px 2px 2px;
+    /* background-color: rgb(255, 0, 0); */
+    animation: animate 6s linear infinite;
+    background-image: linear-gradient(90deg,#3e56a7,#04acff,#aaeaea,#1a60e1,#0f72a0,#3e56a7,#14accc);
+}
+.right{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+    border-radius: 0px 40px 40px 0px;
+    gap: 60px;
+}
+
+@keyframes animate{
+    0%{
+      background-position : 0%;
+      box-shadow: 0 0 -1.0em hsla(192, 100%, 50%, 0.61);
+    }
+    50%{
+      background-position: 50%;
+      box-shadow: 0 0 1.8em #03c4ff91;
+    }
+    100%{
+      background-position: 0%;
+      box-shadow: 0 0 -1.0em #3e56a794;
+    }
+  }
+
+@media screen and (min-width: 1000px) and (max-width: 1500px) {
+    .username{
+        font-size: 20px;
+        color: aliceblue;
+        font-weight: 700;
+    }
+    .score{
+        font-size: 20px;
+        color: aliceblue;
+        font-weight: 700;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .username{
+        font-size: 10px;
+        color: aliceblue;
+        font-weight: 700;
+    }
+    .score{
+        font-size: 10px;
+        color: aliceblue;
+        font-weight: 700;
+    }
+    .left{
+        gap: 15px;
+    }
+    .right{
+        gap: 15px;
+    }
+}
