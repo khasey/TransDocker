@@ -52,11 +52,16 @@ export class ChannelService {
   }
 
 // ============ Obtenir un canal par son nom ============ 
-	async getChannelByName(name: string): Promise<Channel | null> {
-		const channel = await this.channelRepository.findOne({ where: { name: name } });
-	if (!channel) {
-	  	console.log('channel doesnt exist!!');
-		}
-	return channel;
+async getChannelByName(name: string): Promise<Channel | null> {
+	try {
+	  const channel = await this.channelRepository.findOne({ where: { name: name } });
+	  if (!channel) {
+		console.log(`No channel found with name: ${name}`);
+	  }
+	  return channel;
+	} catch (error) {
+	  console.error(`Error while trying to find channel with name: ${name}`, error);
+	  throw error;
+	}
   }
 }
