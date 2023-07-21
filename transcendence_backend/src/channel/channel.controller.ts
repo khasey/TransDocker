@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, BadRequestException, Param, NotFoundExcept
 import { CreateChannelDto } from './channel.dto';
 import { ChannelService } from './channel.service';
 import { Channel } from './channel.entity';
+import { channel } from 'diagnostics_channel';
 
 @Controller('channels')
 export class ChannelController {
@@ -24,6 +25,7 @@ export class ChannelController {
 // ============ Créations de channels ============
     @Get('/latest')
     async getLatestChannel(): Promise<Channel> {
+
     return this.channelService.getLatestChannel();
     } 
 
@@ -35,5 +37,6 @@ async getChannelByName(@Param('name') name: string) {
     throw new NotFoundException('Channel does not exist');
   }
   return channel;
-}    
+}
+
 }
