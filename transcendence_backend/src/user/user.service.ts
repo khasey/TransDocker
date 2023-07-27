@@ -179,6 +179,14 @@ async getUserIdByUsername(username: string): Promise<number | null> {
   async getUserByUsername(username: string): Promise<User> {
     return this.userRepository.findOne({ where: { username: username } });
 }
+async getFriends(userId: number): Promise<User[]> {
+  const user = await this.getUserById(userId);
+  if (user && user.friends) {
+    return await Promise.all(user.friends.map(id => this.getUserById(id)));
+  }
+  return [];
+}
+
 
   
 }
