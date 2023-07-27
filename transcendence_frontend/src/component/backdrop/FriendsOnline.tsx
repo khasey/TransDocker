@@ -39,23 +39,46 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
       },
     },
   }));
+  type Friend = {
+    id: number;
+    username:string;
+    friends: number[];// ajouter ici d'autres propriétés si nécessaire
+  };
+  
 
 export const FriendsOnline = () => {
 
-    const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [friends, setFriends] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>('http://localhost:4000/user', { withCredentials: true });
-        setUser(response.data);
+        const currentUser = response.data;
+        setUser(currentUser);
+  
+        // Après avoir obtenu l'utilisateur, obtenir ses amis
+        const friendsResponse = await axios.get<Friend[]>(`http://localhost:4000/users/${currentUser.id}/friends`, { withCredentials: true });
+        console.log('friendsResponse.data:', friendsResponse.data);
+        const friendIds = friendsResponse.data.map((friend) => friend.id);
+        
+        
+        // Pour chaque id d'ami, obtenir les détails de l'utilisateur
+        const friendPromises = friendIds.map(id => axios.get<User>(`http://localhost:4000/user/${id}`));
+        const friendsDetailsResponses = await Promise.all(friendPromises);
+        
+        // Définir les amis dans l'état
+        const friendsDetails = friendsDetailsResponses.map(response => response.data);
+        setFriends(friendsDetails);
       } catch (error) {
-        console.error("Erreur lors de la récupération de l'utilisateur :", error);
+        console.error("Erreur lors de la récupération de l'utilisateur et des amis :", error);
       }
     };
-
+  
     fetchUser();
   }, []);
+  
 
   const [state, setState] = React.useState({
     right: false,
@@ -65,11 +88,9 @@ export const FriendsOnline = () => {
     <div className={styles.channel}>
                 <div className={styles.channel_photo}>
                 <AvatarGroup max={4}>
-                  <Avatar alt="Remy Sharp" src="" style={{cursor:'pointer'}}/>
-                  <Avatar alt="Travis Howard" src="" style={{cursor:'pointer'}}/>
-                  <Avatar alt="Cindy Baker" src="" style={{cursor:'pointer'}}/>
-                  <Avatar alt="Agnes Walker" src="" style={{cursor:'pointer'}}/>
-                  <Avatar alt="Trevor Henderson" src="" style={{cursor:'pointer'}}/>
+                  {friends.map(friend =>(
+                  <Avatar key={friend.id} alt={friend.username} src={friend.imageUrl} style={{cursor:'pointer'}}/>
+                  ))}
                 </AvatarGroup>
                 </div>
                 <div className={styles.channel_text}>
