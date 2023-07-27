@@ -49,6 +49,10 @@ async getAllUsernamesId(): Promise<{ id: number; username: string }[]> {
   async getUserById(@Param('id') id: number): Promise<User> {
     return this.userService.getUserById(id);
   }
+  @Get('users/:userId/friends')
+  async getFriends(@Param('userId') userId: number): Promise<User[]> {
+    return this.userService.getFriends(userId);
+  }
 
 
   
