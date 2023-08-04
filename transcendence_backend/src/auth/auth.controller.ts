@@ -21,7 +21,7 @@ export class AuthController {
 
     if (utilisateurEnregistre) {
       const jwt = await this.authService.generateJwt(utilisateurEnregistre);
-      res.cookie('jwt', jwt.access_token, { httpOnly: true });  // Stockez le JWT dans un cookie
+      res.cookie('jwt', jwt.access_token, { httpOnly: false });  // Stockez le JWT dans un cookie
     } else {
       console.error('Erreur lors de l\'enregistrement de l\'utilisateur');
     }
