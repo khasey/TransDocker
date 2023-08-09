@@ -211,7 +211,7 @@ useEffect(() => {
 		chatSocket.disconnect();
 		channelSocket.disconnect();
 	};
-}, [user]);
+}, [selectedChannel, user]);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
