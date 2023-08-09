@@ -1,0 +1,29 @@
+{
+  "name": "transcendence_serveur",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npx prisma generate --schema=../../prisma/schema.prisma && npx prisma db push --schema=../../prisma/schema.prisma",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "prisma": {
+    "schema": "../../prisma/schema.prisma"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/websockets": "^9.4.3",
+    "@prisma/client": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "js-cookie": "^3.0.5",
+    "pg-promise": "^11.5.0",
+    "postgres": "^3.3.5",
+    "prisma": "^5.0.0",
+    "socket.io": "^4.6.2"
+  }
+}
